@@ -1,0 +1,44 @@
+name: Develop CI
+
+on:
+  push:
+    branches: develop
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.201
+      
+    - name: Install dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+      
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+     
+    - name: Publish
+      working-directory: LibGit2SharpPoc
+      run: dotnet publish -c Release -r linux-x64 /p:PublishSingleFile=true
+        
+    - name: Copy Dockerfile into build output
+      run: cp build/Dockerfile LibGit2SharpPoc/bin/Release/netcoreapp3.1/linux-x64/publish/
+          
+    - name: Builder Dockerimage and publish to Registry
+      # Let's call this Publish-... when it actually builds and publishes... 
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: litetex/libgit2sharppoc
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        tags: "develop,develop-${{ github.sha }}"
+        workdir: LibGit2SharpPoc/bin/Release/netcoreapp3.1/linux-x64/publish/
