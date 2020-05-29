@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1-focal
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1-bionic
 
 COPY LibGit2SharpPoc LibGit2SharpPoc
 
