@@ -28,10 +28,10 @@ jobs:
      
     - name: Publish
       working-directory: LibGit2SharpPoc
-      run: dotnet publish -c Release -r alpine-x64 /p:PublishSingleFile=true
+      run: dotnet publish -c Release -r alpine.3.9-x64 /p:PublishSingleFile=true
         
     - name: Copy Dockerfile into build output
-      run: cp build/Dockerfile LibGit2SharpPoc/bin/Release/netcoreapp3.1/alpine-x64/publish/
+      run: cp build/Dockerfile LibGit2SharpPoc/bin/Release/netcoreapp3.1/alpine.3.9-x64/publish/
           
     - name: Builder Dockerimage and publish to Registry
       # Let's call this Publish-... when it actually builds and publishes... 
@@ -41,4 +41,4 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         tags: "test-resolve-1,test-resolve-1-${{ github.sha }}"
-        workdir: LibGit2SharpPoc/bin/Release/netcoreapp3.1/alpine-x64/publish/
+        workdir: LibGit2SharpPoc/bin/Release/netcoreapp3.1/alpine.3.9-x64/publish/
