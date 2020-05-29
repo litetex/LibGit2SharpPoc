@@ -40,5 +40,5 @@ jobs:
         name: litetex/libgit2sharppoc
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        tags: "develop,develop-${{ github.sha }}"
+        tags: "test-resolve-2,test-resolve-2-${{ github.sha }}"
         workdir: LibGit2SharpPoc/bin/Release/netcoreapp3.1/ubuntu.18.04-x64/publish/
